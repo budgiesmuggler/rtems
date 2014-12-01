@@ -60,6 +60,11 @@ MEMORY
 __alt_mem_bootloader = 0x20000000;
 __alt_mem_altmemddr_0 = 0x40000000;
 
+ __nios2_icache_size = 16384 ;
+ __nios2_icache_line_size = 32 ;
+ __nios2_dcache_size = 0 ;
+ __nios2_dcache_line_size = 4 ;
+
 OUTPUT_FORMAT( "elf32-littlenios2",
                "elf32-littlenios2",
                "elf32-littlenios2" )

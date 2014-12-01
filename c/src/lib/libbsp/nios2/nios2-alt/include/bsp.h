@@ -23,6 +23,8 @@
 #include <rtems/console.h>
 #include <rtems/clockdrv.h>
 
+#include <rtems/score/nios2-utility.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
