@@ -32,7 +32,7 @@
 #include "sys/alt_exceptions.h"
 #include "nios2.h"
 #include "alt_types.h"
-#include "system.h"
+#include "alt_system.h"
 
 /*
  * This file implements support for calling user-registered handlers for

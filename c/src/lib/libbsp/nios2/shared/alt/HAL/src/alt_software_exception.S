@@ -38,7 +38,7 @@
   * alt_irq_entry.
   */
 	
-#include "system.h"
+#include "alt_system.h"
 
         /*
          * Pull in the exception handler.

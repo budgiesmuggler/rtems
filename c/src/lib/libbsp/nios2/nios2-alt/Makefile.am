@@ -18,10 +18,10 @@ dist_project_lib_DATA = bsp_specs
 include_bspdir = $(includedir)/bsp
 
 include_HEADERS = include/bsp.h
+include_HEADERS = include/alt_linker.h
+include_HEADERS = include/alt_system.h
 include_HEADERS += ../../shared/include/tm27.h
 
-include_HEADERS += $(ALT)/linker.h
-include_HEADERS += $(ALT)/system.h
 include_HEADERS += $(ALT_HAL_INC)/nios2.h
 
 nodist_include_HEADERS = include/bspopts.h

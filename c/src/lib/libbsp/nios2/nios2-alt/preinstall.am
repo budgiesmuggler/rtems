@@ -45,6 +45,18 @@ $(PROJECT_INCLUDE)/tm27.h: ../../shared/include/tm27.h $(PROJECT_INCLUDE)/$(dirs
 	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/tm27.h
 PREINSTALL_FILES += $(PROJECT_INCLUDE)/tm27.h
 
+$(PROJECT_INCLUDE)/linker.h: $(ALT)/linker.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/linker.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/linker.h
+
+$(PROJECT_INCLUDE)/system.h: $(ALT)/system.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/system.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/system.h
+
+$(PROJECT_INCLUDE)/nios2.h: $(ALT_HAL_INC)/nios2.h $(PROJECT_INCLUDE)/$(dirstamp)
+	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/nios2.h
+PREINSTALL_FILES += $(PROJECT_INCLUDE)/nios2.h
+
 $(PROJECT_INCLUDE)/bspopts.h: include/bspopts.h $(PROJECT_INCLUDE)/$(dirstamp)
 	$(INSTALL_DATA) $< $(PROJECT_INCLUDE)/bspopts.h
 PREINSTALL_FILES += $(PROJECT_INCLUDE)/bspopts.h

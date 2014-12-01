@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#include <bsp/alt/system.h>
+#include <alt_system.h>
 
 /* ============================================ */
 

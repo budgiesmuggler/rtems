@@ -28,7 +28,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include "system.h"
+#include "alt_system.h"
 
 /*
  * This is the interrupt exception entry point code, which saves all the

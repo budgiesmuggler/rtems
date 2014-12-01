@@ -28,7 +28,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include "system.h"
+#include "alt_system.h"
 
 /*
  * This is the exception entry point code, which saves all the caller saved

@@ -49,7 +49,7 @@
 
 #include "nios2.h"
 #include "alt_types.h"
-#include "system.h"
+#include "alt_system.h"
 
 #ifdef __cplusplus
 extern "C"
