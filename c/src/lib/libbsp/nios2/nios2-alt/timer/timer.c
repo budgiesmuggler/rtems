@@ -25,16 +25,17 @@
 #include <rtems.h>
 #include <rtems/btimer.h>
 #include <rtems/score/cpu.h>
+#include "nios2.h"
+#include "alt_system.h"
+#include "altera_avalon_timer_regs.h"
 #include <bsp.h>
 
 volatile uint32_t Timer_interrupts;
 bool benchmark_timer_find_average_overhead;
 
-#define TIMER_REGS ((altera_avalon_timer_regs*)NIOS2_IO_BASE(TIMER_BASE))
-
-static rtems_isr timerisr(rtems_vector_number vector)
+void timerisr( void )
 {
-  TIMER_REGS->status = 0;
+  IOWR_ALTERA_AVALON_TIMER_STATUS (TIMER_0_BASE, 0);
   Timer_interrupts++;
 }
 
@@ -42,35 +43,37 @@ void benchmark_timer_initialize( void )
 {
   /* Disable timer interrupt, stop timer */
 
-  TIMER_REGS->control = ALTERA_AVALON_TIMER_CONTROL_STOP_MSK;
+  IOWR_ALTERA_AVALON_TIMER_CONTROL (TIMER_0_BASE,
+                                    ALTERA_AVALON_TIMER_CONTROL_STOP_MSK);
 
-  set_vector(timerisr, TIMER_VECTOR, 1);
+  set_vector((rtems_isr_entry) timerisr, TIMER_0_IRQ, 1);
 
   /* Enable interrupt processing */
 
-  NIOS2_IENABLE(1 << TIMER_VECTOR);
+  Nios2_Set_ienable(TIMER_0_IRQ);
 
 #if TIMER_WRAPS_AFTER_1MS
   /* Writing to periodl/h resets the counter and eventually
      stops it. If the timer hasn't been configured with fixed
      period, set it to 1 ms now */
 
-  TIMER_REGS->period_hi = (TIMER_FREQ/1000)>>16;
-  TIMER_REGS->period_lo = (TIMER_FREQ/1000)&0xFFFF;
+  IOWR_ALTERA_AVALON_TIMER_PERIODH (TIMER_0_BASE, (TIMER_0_FREQ / 1000) >> 16);
+  IOWR_ALTERA_AVALON_TIMER_PERIODL (TIMER_0_BASE, (TIMER_FREQ/1000) & 0xFFFF);
 #else
   /* Writing to periodl/h resets the counter and eventually
      stops it. Set max period */
 
-  TIMER_REGS->period_hi = 0xFFFF;
-  TIMER_REGS->period_lo = 0xFFFF;
+  IOWR_ALTERA_AVALON_TIMER_PERIODH (TIMER_0_BASE, 0xFFFF);
+  IOWR_ALTERA_AVALON_TIMER_PERIODL (TIMER_0_BASE, 0xFFFF);
 #endif
 
   /* For timers that can be stopped, writing to periodl/h
      also stopped the timer and we have to manually start it. */
 
-  TIMER_REGS->control = ALTERA_AVALON_TIMER_CONTROL_ITO_MSK |
-                        ALTERA_AVALON_TIMER_CONTROL_CONT_MSK |
-                        ALTERA_AVALON_TIMER_CONTROL_START_MSK;
+  IOWR_ALTERA_AVALON_TIMER_CONTROL (TIMER_0_BASE,
+                                    ALTERA_AVALON_TIMER_CONTROL_ITO_MSK  |
+                                    ALTERA_AVALON_TIMER_CONTROL_CONT_MSK |
+                                    ALTERA_AVALON_TIMER_CONTROL_START_MSK);
 
   /* This is the most safe place for resetting the overflow
      counter - just _after_ we reset the timer. Depending
@@ -96,7 +99,7 @@ void benchmark_timer_initialize( void )
 
 #define LEAST_VALID AVG_OVERHEAD /* Don't trust a value lower than this */
 
-benchmark_timer_t benchmark_timer_read( void )
+uint32_t benchmark_timer_read( void )
 {
   uint32_t timer_wraps;
   uint32_t timer_snap;
@@ -104,25 +107,29 @@ benchmark_timer_t benchmark_timer_read( void )
   uint32_t total;
 
   /* Hold timer */
-  TIMER_REGS->control = ALTERA_AVALON_TIMER_CONTROL_STOP_MSK;
+  IOWR_ALTERA_AVALON_TIMER_CONTROL (TIMER_0_BASE,
+                                    ALTERA_AVALON_TIMER_CONTROL_STOP_MSK);
 
   /* Write to request snapshot of timer value */
-  TIMER_REGS->snap_lo = 0;
+  IOWR_ALTERA_AVALON_TIMER_SNAPL (TIMER_0_BASE, 0);
   /* Get snapshot */
-  timer_snap = ((TIMER_REGS->snap_hi)<<16) | TIMER_REGS->snap_lo;
+  timer_snap =
+    (IORD_ALTERA_AVALON_TIMER_SNAPH (TIMER_0_BASE) << 16) |
+    IORD_ALTERA_AVALON_TIMER_SNAPL (TIMER_0_BASE);
   timer_wraps = Timer_interrupts;
 
   /* Restart timer */
-  TIMER_REGS->control = ALTERA_AVALON_TIMER_CONTROL_START_MSK;
+  IOWR_ALTERA_AVALON_TIMER_CONTROL (TIMER_0_BASE,
+                                    ALTERA_AVALON_TIMER_CONTROL_START_MSK);
 
 #if TIMER_WRAPS_AFTER_1MS
-  timer_ticks = (TIMER_FREQ / 1000) - 1 - timer_snap;
+  timer_ticks = (TIMER_0_FREQ / 1000) - 1 - timer_snap;
   total = timer_wraps * 1000;
 #else
   timer_ticks = 0xFFFFFFFF - timer_snap;
-  total = timer_wraps * 0x80000000 / (TIMER_FREQ / 2000000L);
+  total = timer_wraps * 0x80000000 / (TIMER_0_FREQ / 2000000L);
 #endif
-  total += timer_ticks / (TIMER_FREQ / 1000000L);
+  total += timer_ticks / (TIMER_0_FREQ / 1000000L);
 
   if(total < LEAST_VALID) return 0;
 

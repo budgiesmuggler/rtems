@@ -427,3 +427,9 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  */
 PROVIDE( __alt_heap_start    = end );
 PROVIDE( __alt_heap_limit    = 0x44000000 );
+
+PROVIDE(RamBase = __alt_data_start);
+PROVIDE(RamSize = __alt_data_end - __alt_data_start);
+PROVIDE(HeapSize = __alt_heap_limit - __alt_heap_start);
+PROVIDE(StackSize = __alt_stack_limit - __alt_stack_pointer);
+PROVIDE(WorkAreaBase = __alt_heap_start);

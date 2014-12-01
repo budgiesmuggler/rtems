@@ -60,10 +60,6 @@ bool is_character_ready(char *ch)
   return false;
 }
 
-void console_initialize_hardware(void)
-{
-}
-
 /*
  *  This routine reads a character from the SOURCE.
  */
@@ -85,7 +81,6 @@ int console_inbyte_nonblocking(
  *  This routine transmits a character out the SOURCE.
  */
 void console_outbyte_polled(
-  int  port,
   char ch
 )
 {

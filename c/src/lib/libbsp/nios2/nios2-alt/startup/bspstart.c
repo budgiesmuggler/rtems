@@ -16,8 +16,8 @@
 
 #include <sys/cdefs.h>
 
-#include <bsp.h>
 #include <rtems/score/nios2-utility.h>
+#include <bsp.h>
 #include <bsp/bootcard.h>
 
 #include "nios2.h"

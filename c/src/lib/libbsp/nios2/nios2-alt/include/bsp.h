@@ -82,10 +82,10 @@ extern char __alt_data_end[];
 extern char __alt_heap_start[];
 extern char __alt_heap_limit[];
 
-#define RamBase       __alt_data_start
-#define RamSize       (__alt_data_end - __alt_data_start)
-#define WorkAreaBase  __alt_heap_start
-#define HeapSize      BSP_BOOTCARD_HEAP_SIZE_DEFAULT
+//#define RamBase       __alt_data_start
+//#define RamSize       (__alt_data_end - __alt_data_start)
+//#define WorkAreaBase  __alt_heap_start
+//#define HeapSize      BSP_BOOTCARD_HEAP_SIZE_DEFAULT
 #ifdef __cplusplus
 }
 #endif

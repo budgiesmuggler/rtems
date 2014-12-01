@@ -52,7 +52,7 @@
 #define __SYSTEM_H_
 
 /* Include definitions from linker script generator */
-#include "linker.h"
+#include "alt_linker.h"
 
 
 /*
