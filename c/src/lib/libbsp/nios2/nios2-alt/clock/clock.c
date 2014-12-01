@@ -7,7 +7,7 @@
 #include <rtems.h>
 #include <bsp.h>
 
-#include "system.h"
+#include "alt_system.h"
 #include "altera_avalon_timer_regs.h"
 
 /*

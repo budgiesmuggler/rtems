@@ -19,7 +19,7 @@
 #include <bsp.h>
 #include <rtems/libio.h>
 
-#include "system.h"
+#include "alt_system.h"
 #include "nios2.h"
 
 #ifdef __ALTERA_AVALON_JTAG_UART

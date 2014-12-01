@@ -33,7 +33,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include "system.h"
+#include "alt_system.h"
 #include "nios2.h"
 	
 /* Setup header files to work with assembler code. */
