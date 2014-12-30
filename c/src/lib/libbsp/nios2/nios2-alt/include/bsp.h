@@ -38,7 +38,7 @@ extern "C" {
  */
 static inline void Nios2_Set_ienable(uint32_t mask)
 {
-  _Nios2_Set_ctlreg_ienable(_Nios2_Get_ctlreg_ienable() | mask);
+  _Nios2_Set_ctlreg_ienable(_Nios2_Get_ctlreg_ienable() | (1 << mask));
 }
 
 /*
@@ -46,7 +46,7 @@ static inline void Nios2_Set_ienable(uint32_t mask)
  */
 static inline void Nios2_Clear_ienable(uint32_t mask)
 {
-  _Nios2_Set_ctlreg_ienable(_Nios2_Get_ctlreg_ienable() & ~mask);
+  _Nios2_Set_ctlreg_ienable(_Nios2_Get_ctlreg_ienable() & ~(1 << mask));
 }
 
 /*
