@@ -77,5 +77,8 @@ libbsp_a_SOURCES += console/console.c ../../shared/console-polled.c
 # timer
 libbsp_a_SOURCES += timer/timer.c
 
+# Cache
+libbsp_a_LIBADD = ../../../libcpu/@RTEMS_CPU@/shared/cache.rel
+
 include $(srcdir)/preinstall.am
 include $(top_srcdir)/../../../../automake/local.am
